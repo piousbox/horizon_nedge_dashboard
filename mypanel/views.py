@@ -12,6 +12,7 @@ import sys
 sys.path.append("/usr/lib/python2.7/dist-packages")
 import requests
 import json
+from operator import itemgetter
 
 from django.conf import settings
 
@@ -34,28 +35,21 @@ class IndexView(views.APIView):
                 pass
             else:
                 context['nedge_url'] = context['nedge_url'] + '/'
-
-            # print '+++ +++ endpoint'
-            # print context['nedge_url']
         except AttributeError:
             note = { 'message': _('Missing parameter NEDGE_URL in settings.py. For example, NEDGE_URL="http://192.168.100.1:8080/" ') }
             context['notifications'].append( note )
             return context
 
         try:
-            status_endpoint = requests.get("%s/system/status" % settings.NEDGE_URL)
+            status_endpoint = requests.get("%s/system/status" % context['nedge_url'])
             # status_endpoint = requests.get('0.0.0.0')
             status = json.loads(status_endpoint.text)['response']['restWorker']
             context['system_status'] = status
-            print '+++ +++ status'
-            print context['system_status']
         except requests.exceptions.RequestException:
             context['system_status'] = "NOT OK"
             note = { 'message': _('System is down! Please make sure that Admin Rest worker is available at ' + context['nedge_url'] + '. ' +
                                   'To change this configuration, edit settings.py') }
             context['notifications'].append( note )
-            print '+++ +++ notes'
-            print context['notifications']
             return context
         except ValueError:
             note = { 'message': _('The Nedge cluster ReST worker at %s is probably offline. Please check your Nedge cluster ReST worker' % context['nedge_url']) }
@@ -63,9 +57,6 @@ class IndexView(views.APIView):
             return context
 
         stats_endpoint = requests.get("%s/system/stats" % settings.NEDGE_URL)
-
-        context['nodes'] = []
-
         stats = json.loads(stats_endpoint.text)['response']['stats']
 
         nodes = stats['servers']
@@ -91,9 +82,19 @@ class IndexView(views.APIView):
             else:
                 nodes[n]['used'] = _('Retrieving information...')
 
-            context['nodes'].append(n)
+            if 'utilization' not in nodes[n]:
+                nodes[n]['utilization'] = _('Retrieving information...')
 
-        context['nodes'] = nodes
+            if 'num_objects' not in nodes[n]:
+                nodes[n]['num_objects'] = _('Retrieving information...')
+
+            if 'ipv6addr' not in nodes[n]:
+                nodes[n]['ipv6addr'] = _('Retrieving information...')
+
+            if 'hostname' not in nodes[n]:
+                nodes[n]['hostname'] = _('Retrieving information...')
+
+        context['nodes'] = sorted(nodes, key=itemgetter('hostname'), reverse=True)
         nodes_good = {x:nodes[x] for x in nodes if 100 == nodes[x]['health']}
         nodes_bad = {x:nodes[x] for x in nodes if 0 == nodes[x]['health']}
         context['n_nodes_good'] = len(nodes_good)
@@ -110,11 +111,6 @@ class IndexView(views.APIView):
             data_reduction = 0
         context['data_reduction'] = size(data_reduction, system=alternative)
 
-        ## reduction factor is the difference between logical and physical used, expressed as a portion of the logical used.
-        ## auditserv now provides reduction factor as a string, so computing it is unnecessary.
-        ## _vp_ 20150325
-        # context['reduction_factor'] = data_reduction / (stats['summary']['total_logical_used']+1)
-        # context['reduction_factor'] = "%sx" % context['reduction_factor']
         context['reduction_factor'] = stats['summary']['reduction_ratio']
 
         return context
