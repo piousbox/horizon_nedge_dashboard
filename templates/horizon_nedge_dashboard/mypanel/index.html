@@ -23,7 +23,7 @@
       <li><b>Endpoint:</b> {{ nedge_url }}</li>
       <li><b>Status:</b> {{ system_status }}</li>
     </ul>
-    <!-- version 0.0.3 from 20150329 -->
+    <!-- version 0.0.4 from 20150329 -->
 
     <h3>Nodes</h3>
     <ul>
@@ -78,7 +78,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for idx, node in nodes.items %}
+        {% for node in nodes %}
         <tr>
           <td class="normal_column">{{ node.hostname }}</td>
           <td class="normal_column">{{ node.status }}</td>

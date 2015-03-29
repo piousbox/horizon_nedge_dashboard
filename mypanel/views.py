@@ -60,6 +60,7 @@ class IndexView(views.APIView):
         stats = json.loads(stats_endpoint.text)['response']['stats']
 
         nodes = stats['servers']
+        context['nodes'] = []
         for n in nodes:
             if 'health' in nodes[n]:
                 if 100 == nodes[n]['health']:
@@ -94,7 +95,12 @@ class IndexView(views.APIView):
             if 'hostname' not in nodes[n]:
                 nodes[n]['hostname'] = _('Retrieving information...')
 
-        context['nodes'] = sorted(nodes, key=itemgetter('hostname'), reverse=True)
+            context['nodes'].append( nodes[n] )
+
+        context['nodes'] = sorted(context['nodes'], key=itemgetter('hostname'))
+        # print "+++ +++ nodes are"
+        # print context['nodes']
+
         nodes_good = {x:nodes[x] for x in nodes if 100 == nodes[x]['health']}
         nodes_bad = {x:nodes[x] for x in nodes if 0 == nodes[x]['health']}
         context['n_nodes_good'] = len(nodes_good)
