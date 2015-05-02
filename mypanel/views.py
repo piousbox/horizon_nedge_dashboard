@@ -31,12 +31,10 @@ class IndexView(views.APIView):
 
         try:
             context['nedge_url'] = settings.NEDGE_URL
-            if context['nedge_url'].endswith('/'):
-                pass
-            else:
-                context['nedge_url'] = context['nedge_url'] + '/'
+            context['nedge_url'] = context['nedge_url'].rstrip('/')
+
         except AttributeError:
-            note = { 'message': _('Missing parameter NEDGE_URL in settings.py. For example, NEDGE_URL="http://192.168.100.1:8080/" ') }
+            note = { 'message': _('Missing parameter NEDGE_URL in settings.py. For example, NEDGE_URL="http://192.168.100.1:8080" ') }
             context['notifications'].append( note )
             return context
 
