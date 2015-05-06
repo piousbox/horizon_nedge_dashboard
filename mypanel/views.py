@@ -32,7 +32,6 @@ class IndexView(views.APIView):
         try:
             context['nedge_url'] = settings.NEDGE_URL
             context['nedge_url'] = context['nedge_url'].rstrip('/')
-
         except AttributeError:
             note = { 'message': _('Missing parameter NEDGE_URL in settings.py. For example, NEDGE_URL="http://192.168.100.1:8080" ') }
             context['notifications'].append( note )
@@ -54,7 +53,7 @@ class IndexView(views.APIView):
             context['notifications'].append( note )
             return context
 
-        stats_endpoint = requests.get("%s/system/stats" % settings.NEDGE_URL)
+        stats_endpoint = requests.get("%s/system/stats" % context['nedge_url'])
         stats = json.loads(stats_endpoint.text)['response']['stats']
 
         nodes = stats['servers']
@@ -96,6 +95,7 @@ class IndexView(views.APIView):
             context['nodes'].append( nodes[n] )
 
         context['nodes'] = sorted(context['nodes'], key=itemgetter('hostname'))
+
         # print "+++ +++ nodes are"
         # print context['nodes']
 

@@ -38,4 +38,4 @@ Next, restart apache and memcached and you should be able to see the Nedge Dashb
 
 ==== Version ====
 
-This is version 0.0.6
+This is version 0.0.7
