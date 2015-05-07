@@ -109,6 +109,8 @@ class IndexView(views.APIView):
         context['capacity_total'] = size(stats['summary']['total_capacity'], system=alternative)
         context['capacity_used'] = size(stats['summary']['total_used'], system=alternative)
         context['capacity_available'] = size(stats['summary']['total_available'], system=alternative)
+        context['est_total_available'] = size(int(stats['summary']['est_total_available']), system=alternative)
+        context['total_logical_used'] = size(stats['summary']['total_logical_used'], system=alternative)
 
         data_reduction = stats['summary']['total_logical_used'] - stats['summary']['total_used']
         if data_reduction < 0:

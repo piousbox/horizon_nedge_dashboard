@@ -66,8 +66,9 @@
 }
 .nedge-header .page-header h1,
 .nedge-header .page-header h2 {
-  background: #ED6906 url('https://s3.amazonaws.com/ish-archive/2014/Clients/Nexenta/nexenta_logo_50.png') no-repeat right center;
-  color: white;
+  background: url('https://s3.amazonaws.com/ish-archive/2014/Clients/Nexenta/Nexenta-logo-300px.png') no-repeat right center;
+  /* background: #ED6906 url('https://s3.amazonaws.com/ish-archive/2014/Clients/Nexenta/nexenta_logo_50.png') no-repeat right center;
+  color: white; */
   height: 56px;
   line-height: 56px;
   padding-left: 10px;
@@ -95,16 +96,22 @@
 }
 
 /* statistics */
+#nexenta_dashboard_main .nedge-stats {
+  margin-bottom: 10px;
+  height: 140px;
+}
 #nexenta_dashboard_main .nedge-stats .storage-statistics {
   float: left;
   margin-top: 10px;
   margin-left: 20px;
 }
-#nexenta_dashboard_main .nedge-stats .data-reduction {
+#nexenta_dashboard_main .nedge-stats .data-reduction,
+#nexenta_dashboard_main .nedge-stats .estimated-free-space {
   float: right;
   border-right: 1px solid gray;
   padding-bottom: 20px;
   padding-right: 30px;
+  padding-left: 25px;
   text-align: center;
 }
 #nexenta_dashboard_main .nedge-stats .reduction-factor {
@@ -113,8 +120,7 @@
   float: right;
   text-align: center;
 }
-#nexenta_dashboard_main .nedge-stats .data-reduction h1,
-#nexenta_dashboard_main .nedge-stats .reduction-factor h1 {
+#nexenta_dashboard_main .nedge-stats .righthand-floater h1 {
   color: #ED6906;
   font-size: 3em;
   text-align: center;

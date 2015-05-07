@@ -4,7 +4,7 @@
 
 {% block page_header %}
   <div class="nedge-header">
-    {% include "horizon/common/_page_header.html" with title=_("NexentaEdge Dashboard") %}
+    {% include "horizon/common/_page_header.html" with title=_(" ") %}
   </div>
 {% endblock page_header %}
 
@@ -17,13 +17,14 @@
   </div>
 
   <div class="this-overview">
-    <img class="this-vmworld" src="https://s3.amazonaws.com/ish-archive/2014/Clients/Nexenta/vmworld.png" alt="" width="170px" />
+    <!-- <img class="this-vmworld" src="https://s3.amazonaws.com/ish-archive/2014/Clients/Nexenta/vmworld.png" alt="" width="170px" /> -->
+    <img class="this-vmworld" src="https://s3.amazonaws.com/ish-archive/2014/Clients/Nexenta/20150507.edge.png" alt="" width="170px" />
     <h3>Overview:</h3>
     <ul>
       <li><b>Endpoint:</b> {{ nedge_url }}</li>
       <li><b>Status:</b> {{ system_status }}</li>
     </ul>
-    <!-- version 0.0.7 from 20150329 -->
+    <!-- version 0.0.8 from 20150329 -->
 
     <h3>Nodes</h3>
     <ul>
@@ -40,24 +41,29 @@
     <h3>Statistics:</h3>
     <h4 class="hide">Storage Statistics:</h4>
     <div class="storage-statistics">
-      Total storage capacity: {{ capacity_total }}<br />
-      Used storage capacity: {{ capacity_used }}<br />
-      Available capacity: {{ capacity_available }}<br />
+      Total raw capacity: {{ capacity_total }}<br />
+      Physical Allocated Space: {{ capacity_used }}<br />
+      Physical Free Space: {{ capacity_available }}<br />
+      Total Logical Used Space: {{ total_logical_used }}<br />
       Number of objects: {{ n_objects }}<br />
       <div class="c"></div>
     </div>
-    <div class="reduction-factor">
+    <div class="righthand-floater reduction-factor">
       <h1>{{ reduction_factor }}</h1>
-      Reduction Factor
+      Estimated Reduction Factor
     </div>
-    <div class="data-reduction">
+    <div class="righthand-floater data-reduction">
       <h1>{{ data_reduction }}</h1>
-      Data Reduction
+      Estimated Data Reduction
+    </div>
+    <div class="righthand-floater estimated-free-space">
+      <h1>{{ est_total_available }}</h1>
+      Estimated Free Space
     </div>
     <div class="c"></div>
   </div>
 
-  <h4>Node Statistics:</h4>
+  <h3>Node Statistics:</h3>
   <div class="nodes table_wrapper">
     <table id="nedge_nodes" class="table table-bordered table-striped datatable">
       <thead>
@@ -70,9 +76,9 @@
           <th class="normal_column">Node name</th>
           <th class="normal_column">Node status</th>
           <th class="normal_column">IPv6</th>
-          <th class="normal_column">Health</th>
+          <!-- <th class="normal_column">Health</th> -->
           <th class="normal_column">Number of objects</th>
-          <th class="normal_column">Capacity</th>
+          <th class="normal_column">Total Raw Capacity</th>
           <th class="normal_column">Used capacity</th>
           <th class="normal_column">Utilization</th>
         </tr>
@@ -83,7 +89,7 @@
           <td class="normal_column">{{ node.hostname }}</td>
           <td class="normal_column">{{ node.status }}</td>
           <td class="normal_column">{{ node.ipv6addr }}</td>
-          <td class="normal_column">{{ node.health }}</td>
+          <!-- <td class="normal_column">{{ node.health }}</td> -->
           <td class="normal_column">{{ node.num_objects }}</td>
           <td class="normal_column">{{ node.capacity }}</td>
           <td class="normal_column">{{ node.used }}</td>
