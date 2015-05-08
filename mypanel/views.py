@@ -38,8 +38,8 @@ class IndexView(views.APIView):
             try:
                 context['nedge_url'] = settings.NEDGE_URL
             except AttributeError:
-                note = { 'message': _('Missing parameter NEDGE_URL in settings.py. For example, NEDGE_URL="http://192.168.100.1:8080" '),
-                         'raw_message': 'Missing parameter NEDGE_URL in settings.py. For example, NEDGE_URL="http://192.168.100.1:8080" ',
+                note = { 'message': _('Missing parameter NEDGE_URL in settings.py. For example, NEDGE_URL="http://192.168.100.1:8080"'),
+                         'raw_message': 'Missing parameter NEDGE_URL in settings.py. For example, NEDGE_URL="http://192.168.100.1:8080"',
                 }
                 context['notifications'].append( note )
                 return context
