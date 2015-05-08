@@ -41,7 +41,7 @@ Next, restart apache and memcached and you should be able to see the Nedge Dashb
  sudo apt-get install libssl-dev -y
  cd /opt/stack/horizon && ./run_tests.sh 
  sudo pip install django-nose
- cd /opt/stack/horizon && ./manage.py  test openstack_dashboard/dashboards/horizon_nedge_dashboard --settings=openstack_dashboard.dashboards.horizon_nedge_dashboard.settings
+ cd /opt/stack/horizon && ./run_tests.sh openstack_dashboard.dashboards.horizon_nedge_dashboard
 
 ==== Author ====
 

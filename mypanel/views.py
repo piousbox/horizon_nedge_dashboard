@@ -22,6 +22,9 @@ class IndexView(views.APIView):
 
     def get_data(self, request, context, *args, **kwargs):
 
+        # print "+++ +++ 5"
+        # print "request is %s", request
+
         context['notifications'] = []
         context['n_nodes_good'] = 0
         context['n_nodes_bad'] = 0
@@ -29,13 +32,19 @@ class IndexView(views.APIView):
         context['reduction_factor'] = 0
         context['system_status'] = 'NOT OK'
 
-        try:
-            context['nedge_url'] = settings.NEDGE_URL
-            context['nedge_url'] = context['nedge_url'].rstrip('/')
-        except AttributeError:
-            note = { 'message': _('Missing parameter NEDGE_URL in settings.py. For example, NEDGE_URL="http://192.168.100.1:8080" ') }
-            context['notifications'].append( note )
-            return context
+        if 'NEDGE_URL' in request.GET:
+            context['nedge_url'] = request.GET['NEDGE_URL']
+        else:
+            try:
+                context['nedge_url'] = settings.NEDGE_URL
+            except AttributeError:
+                note = { 'message': _('Missing parameter NEDGE_URL in settings.py. For example, NEDGE_URL="http://192.168.100.1:8080" '),
+                         'raw_message': 'Missing parameter NEDGE_URL in settings.py. For example, NEDGE_URL="http://192.168.100.1:8080" ',
+                }
+                context['notifications'].append( note )
+                return context
+
+        context['nedge_url'] = context['nedge_url'].rstrip('/')
 
         try:
             status_endpoint = requests.get("%s/system/status" % context['nedge_url'])
@@ -45,11 +54,15 @@ class IndexView(views.APIView):
         except requests.exceptions.RequestException:
             context['system_status'] = "NOT OK"
             note = { 'message': _('System is down! Please make sure that Admin Rest worker is available at ' + context['nedge_url'] + '. ' +
-                                  'To change this configuration, edit settings.py') }
+                                  'To change this configuration, edit settings.py'),
+                     'raw_message': 'System is down!',
+            }
             context['notifications'].append( note )
             return context
         except ValueError:
-            note = { 'message': _('The Nedge cluster ReST worker at %s is probably offline. Please check your Nedge cluster ReST worker' % context['nedge_url']) }
+            note = { 'message': _('The Nedge cluster ReST worker at %s is probably offline. Please check your Nedge cluster ReST worker' % context['nedge_url']),
+                     'raw_message': 'The nedge cluster is probably offline.',
+            }
             context['notifications'].append( note )
             return context
 
@@ -95,9 +108,6 @@ class IndexView(views.APIView):
             context['nodes'].append( nodes[n] )
 
         context['nodes'] = sorted(context['nodes'], key=itemgetter('hostname'))
-
-        # print "+++ +++ nodes are"
-        # print context['nodes']
 
         nodes_good = {x:nodes[x] for x in nodes if 100 == nodes[x]['health']}
         nodes_bad = {x:nodes[x] for x in nodes if 0 == nodes[x]['health']}
