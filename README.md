@@ -36,12 +36,26 @@ Next, restart apache and memcached and you should be able to see the Nedge Dashb
 3. Restart apache and memcached
 4. Profit
 
-==== Version ====
+==== Testing ====
+
+ sudo apt-get install libssl-dev -y
+ cd /opt/stack/horizon && ./run_tests.sh 
+ sudo pip install django-nose
+ cd /opt/stack/horizon && ./manage.py  test openstack_dashboard/dashboards/horizon_nedge_dashboard --settings=openstack_dashboard.dashboards.horizon_nedge_dashboard.settings
+
+==== Author ====
+
+Author is Victor Piousbox, for Nexenta Systems Inc. (c) 2014,2015
+
+==== Versions and Revision Notes ====
 
 This is version 0.0.8
 
 Like 0.0.7, but optimized for ubuntu theme, and additional stylistic changes.
 
+This is version 0.0.9
+
+Removed header 'Nodes' from the table. Introduced testing.
 
 
 
