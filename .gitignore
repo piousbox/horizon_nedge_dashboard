@@ -2,3 +2,4 @@
 
 *\.pyc
 *~
+tests/test_config.json
