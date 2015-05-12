@@ -35,30 +35,32 @@
   </div>
 
   <div class="c"></div>
-  <hr />
 
   <div class="nedge-stats">
     <h3>Statistics:</h3>
     <h4 class="hide">Storage Statistics:</h4>
     <div class="storage-statistics">
-      Total raw capacity: {{ capacity_total }}<br />
-      Physical Allocated Space: {{ capacity_used }}<br />
-      Physical Free Space: {{ capacity_available }}<br />
-      Total Logical Used Space: {{ total_logical_used }}<br />
+      Physical Free Capacity: {{ capacity_available }}<br />
+      Physical Allocated Capacity: {{ capacity_used }}<br />
+      Total Raw Capacity: {{ capacity_total }}<br />
+      <br />
+
+      Logical Used Capacity: {{ total_logical_used }}<br />
+      Estimated Available Capacity: {{ est_total_available }}<br />
       Number of objects: {{ n_objects }}<br />
       <div class="c"></div>
     </div>
     <div class="righthand-floater reduction-factor">
       <h1>{{ reduction_factor }}</h1>
-      Estimated Reduction Factor
+      Estimated <br />Data Reduction Ratio
     </div>
     <div class="righthand-floater data-reduction">
       <h1>{{ data_reduction }}</h1>
-      Estimated Data Reduction
+      Estimated <br />Capacity Savings
     </div>
     <div class="righthand-floater estimated-free-space">
-      <h1>{{ est_total_available }}</h1>
-      Estimated Free Space
+      <h1>{{ capacity_available }}</h1>
+      Physical <br />Free Capacity
     </div>
     <div class="c"></div>
   </div>

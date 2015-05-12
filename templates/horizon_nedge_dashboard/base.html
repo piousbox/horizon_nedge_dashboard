@@ -63,6 +63,7 @@
   padding-top: 10px;
 }
 .nedge-header .page-header {
+  border-bottom: 1px solid gray;
 }
 .nedge-header .page-header h1,
 .nedge-header .page-header h2 {
@@ -97,34 +98,40 @@
 
 /* statistics */
 #nexenta_dashboard_main .nedge-stats {
+  clear: both;
   margin-bottom: 10px;
-  height: 140px;
+  height: 220px;
+  /* border-top: 2px solid #e5e5e5;
+  border-bottom: 2px solid #e5e5e5; */
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+  margin-top: 20px;
+  padding-top: 10px;
+  line-height: 1.2em;
 }
 #nexenta_dashboard_main .nedge-stats .storage-statistics {
   float: left;
   margin-top: 10px;
   margin-left: 20px;
 }
-#nexenta_dashboard_main .nedge-stats .data-reduction,
-#nexenta_dashboard_main .nedge-stats .estimated-free-space {
+#nexenta_dashboard_main .nedge-stats .righthand-floater {
+  padding-bottom: 35px;
   float: right;
+  /* border-right: 2px solid #e5e5e5; */
   border-right: 1px solid gray;
-  padding-bottom: 20px;
   padding-right: 30px;
   padding-left: 25px;
-  text-align: center;
-}
-#nexenta_dashboard_main .nedge-stats .reduction-factor {
-  padding-left: 25px;
-  margin-right: 100px;
-  float: right;
   text-align: center;
 }
 #nexenta_dashboard_main .nedge-stats .righthand-floater h1 {
   color: #ED6906;
   font-size: 3em;
   text-align: center;
-  margin-bottom: 9px;
+  margin-bottom: 20px;
+  margin-top: 30px;
+}
+#nexenta_dashboard_main .nedge-stats .reduction-factor {
+  border-right: none;
 }
 #nexenta_dashboard_main #nedge_nodes h3.table_title {
   display: none;
